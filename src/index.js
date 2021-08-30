@@ -10,21 +10,27 @@ const resultText = document.getElementById("result-text");
 const HIDDEN_CLASSNAME = "hidden";
 const WIN_TEXT = "You won!";
 const LOSE_TEXT = "You lost!";
+let previousRandomNumber = -1;
 
-function generateRandomNumber(maxNumber){
-    return Math.floor(Math.random()*maxNumber);
+function generateRandomNumber(maxNumber) {
+    let randomNumber = Math.floor(Math.random() * maxNumber);
+    while (randomNumber === previousRandomNumber && (maxNumber>1)) {
+        randomNumber = Math.floor(Math.random() * maxNumber);
+    }
+    previousRandomNumber = randomNumber;
+    return randomNumber;
 }
 
 function onSubmit(event) {
     event.preventDefault();
     const randomNumber = generateRandomNumber(maxNumberInput.value);
-    const userGuess = parseInt(userGuessInput.value,10);
+    const userGuess = parseInt(userGuessInput.value, 10);
     userGuessResult.textContent = userGuess;
     machineGuessResult.textContent = randomNumber;
-    if(randomNumber === userGuess){
-        resultText.textContent=WIN_TEXT;
-    } else{
-        resultText.textContent=LOSE_TEXT;
+    if (randomNumber === userGuess) {
+        resultText.textContent = WIN_TEXT;
+    } else {
+        resultText.textContent = LOSE_TEXT;
     }
 
     resultsContainer.classList.remove(HIDDEN_CLASSNAME);
